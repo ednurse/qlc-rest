@@ -4,6 +4,7 @@ import biz.sigma7.qlcrest.domain.Function;
 import biz.sigma7.qlcrest.domain.exception.DownstreamException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.web.socket.*;
@@ -26,6 +27,9 @@ public class WebSocketFunctionRepository implements FunctionRepository, WebSocke
     private static Logger LOG = LoggerFactory.getLogger(WebSocketFunctionRepository.class);
 
     private static final long TIMEOUT = 500;
+
+    @Value("${qlc.host}")
+    private String host;
 
     private WebSocketSession session = null;
 
@@ -128,15 +132,14 @@ public class WebSocketFunctionRepository implements FunctionRepository, WebSocke
 
     private void connect() {
         WebSocketClient webSocketClient = new StandardWebSocketClient();
-
-        String uriTemplate = "ws://localhost:9999/qlcplusWS";
-        ListenableFuture<WebSocketSession> future = webSocketClient.doHandshake(this, uriTemplate);
+        String uri = host + "/qlcplusWS";
+        ListenableFuture<WebSocketSession> future = webSocketClient.doHandshake(this, uri);
 
         try {
             session = future.get();
-            LOG.info("Successfully connected to QLC at {}", uriTemplate);
+            LOG.info("Successfully connected to QLC at {}", uri);
         } catch (InterruptedException | ExecutionException e) {
-            String msg = "Could not connect to QLC at " + uriTemplate;
+            String msg = "Could not connect to QLC at " + uri;
             LOG.error(msg, e);
             throw new DownstreamException(msg, e);
         }

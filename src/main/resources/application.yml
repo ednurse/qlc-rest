@@ -1,1 +1,2 @@
-
+qlc:
+  host: ws://localhost:9999
