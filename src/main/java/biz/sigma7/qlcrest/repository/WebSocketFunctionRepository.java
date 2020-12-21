@@ -45,10 +45,8 @@ public class WebSocketFunctionRepository implements FunctionRepository, WebSocke
         try {
             return getFunctionsListFuture.get(TIMEOUT, MILLISECONDS);
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
-            LOG.error("Exception waiting for functions list future", e);
+            throw new DownstreamException("Exception waiting for functions list future", e);
         }
-
-        return null;
     }
 
     @Override
@@ -59,10 +57,8 @@ public class WebSocketFunctionRepository implements FunctionRepository, WebSocke
         try {
             return getFunctionTypeFuture.get(TIMEOUT, MILLISECONDS);
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
-            LOG.error("Exception waiting for function type future", e);
+            throw new DownstreamException("Exception waiting for function type future", e);
         }
-
-        return null;
     }
 
     @Override
@@ -73,10 +69,8 @@ public class WebSocketFunctionRepository implements FunctionRepository, WebSocke
         try {
             return getFunctionStatusFuture.get(TIMEOUT, MILLISECONDS);
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
-            LOG.error("Exception waiting for functions status future", e);
+            throw new DownstreamException("Exception waiting for functions status future", e);
         }
-
-        return null;
     }
 
     @Override
@@ -139,9 +133,7 @@ public class WebSocketFunctionRepository implements FunctionRepository, WebSocke
             session = future.get();
             LOG.info("Successfully connected to QLC at {}", uri);
         } catch (InterruptedException | ExecutionException e) {
-            String msg = "Could not connect to QLC at " + uri;
-            LOG.error(msg, e);
-            throw new DownstreamException(msg, e);
+            throw new DownstreamException("Could not connect to QLC at " + uri, e);
         }
     }
 
@@ -153,7 +145,7 @@ public class WebSocketFunctionRepository implements FunctionRepository, WebSocke
         try {
             session.sendMessage(message);
         } catch (IOException e) {
-            LOG.error("Failed to send message {}", message, e);
+            throw new DownstreamException("Failed to send message \"" + message + "\"", e);
         }
     }
 
