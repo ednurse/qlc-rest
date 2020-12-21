@@ -39,7 +39,7 @@ At the moment, the only thing you can do is control functions.
 First you will need to get the function ID. You can do this by making the following request in a browser:
 
 ```
-http://localhost:8080/function
+http://localhost:8080/functions
 ```
 
 As far as I'm aware, this ID never changes once you have created a function.
@@ -63,10 +63,10 @@ would start the function with the ID 22.
 If you would like to set the status of multiple functions in one call, you can make a PUT call to
 
 ```
-http://localhost/function/status
+http://localhost/functions/status
 ```
 
-with a request body sinmilar to the following:
+with a request body similar to the following:
 
 ```
 [

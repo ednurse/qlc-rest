@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/function", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 public class FunctionController {
 
     private final FunctionRepository repository;
@@ -18,22 +18,22 @@ public class FunctionController {
         this.repository = repository;
     }
 
-    @GetMapping
+    @GetMapping("/functions")
     public List<Function> getAllFunctions() {
         return repository.getAllFunctions();
     }
 
-    @GetMapping("/status/{id}")
+    @GetMapping("/function/status/{id}")
     public String getFunctionStatus(@PathVariable("id") int id) {
         return repository.getFunctionStatus(id);
     }
 
-    @PutMapping("/status/{id}/{status}")
+    @PutMapping("/function/status/{id}/{status}")
     public void setFunctionStatus(@PathVariable("id") int id, @PathVariable("status") int status) {
         repository.setFunctionStatus(id, status);
     }
 
-    @PutMapping("/status")
+    @PutMapping("/functions/status")
     public void setFunctionsStatus(@RequestBody List<FunctionStatusRepresentation> statuses) {
         statuses.forEach(status ->
                 repository.setFunctionStatus(status.getId(), status.getValue())
