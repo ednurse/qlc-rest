@@ -42,7 +42,26 @@ First you will need to get the function ID. You can do this by making the follow
 http://localhost:8080/functions
 ```
 
-As far as I'm aware, this ID never changes once you have created a function.
+This will give a response similar to the following:
+
+```
+[
+    {
+        "id": 22,
+        "name": "Stop making a scene"
+    },
+    {
+        "id": 23,
+        "name": "Chase 1"
+    },
+    {
+        "id": 24,
+        "name": Chase 2"
+    }
+]
+```
+
+As far as I'm aware, the ID never changes once you have created a function.
 
 ### Setting a function's status
 
