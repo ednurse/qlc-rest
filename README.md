@@ -14,7 +14,7 @@ Although I have only tried this with my Google Home, I see no reason why this co
 
 ## Installation
 
-You will require a Java 11 JDK.
+You will require a Java 8 JDK.
 
 ## Configuration
 
