@@ -20,9 +20,13 @@ You will require a Java 8 JDK.
 
 ## Configuration
 
-You can set the host address of your running QLC+ instance by editing `application.yml`. By default, it assumes QLC+ is running on the same machine.
+The application can be configured by editing `src/main/resources/application.yml`. This allows you to:
 
-You can also set the port that the wrapper listens on if you want to change it from the default (9998). Again this is in `application.yml`.
+* change the host address of your running QLC+ instance (by default, it assumes QLC+ is running on the same machine)
+* change the amount of time it waits for a response (default 500ms)
+* change the port that the wrapper listens on (default 9998)
+
+The application will need to be restarted for configuration changes to take effect.
 
 ## Execution
 

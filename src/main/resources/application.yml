@@ -3,3 +3,5 @@ server:
 
 qlc:
   host: ws://localhost:9999
+  timeout: 500
+

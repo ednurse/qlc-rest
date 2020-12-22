@@ -26,10 +26,11 @@ public class WebSocketFunctionRepository implements FunctionRepository, WebSocke
 
     private static Logger LOG = LoggerFactory.getLogger(WebSocketFunctionRepository.class);
 
-    private static final long TIMEOUT = 500;
-
     @Value("${qlc.host}")
     private String host;
+
+    @Value("${qlc.timeout}")
+    private long timeout;
 
     private WebSocketSession session = null;
 
@@ -43,7 +44,7 @@ public class WebSocketFunctionRepository implements FunctionRepository, WebSocke
         sendMessage(RequestMessageBuilder.getAllFunctions());
 
         try {
-            return getFunctionsListFuture.get(TIMEOUT, MILLISECONDS);
+            return getFunctionsListFuture.get(timeout, MILLISECONDS);
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
             throw new DownstreamException("Exception waiting for functions list future", e);
         }
@@ -55,7 +56,7 @@ public class WebSocketFunctionRepository implements FunctionRepository, WebSocke
         sendMessage(RequestMessageBuilder.getFunctionType(id));
 
         try {
-            return getFunctionTypeFuture.get(TIMEOUT, MILLISECONDS);
+            return getFunctionTypeFuture.get(timeout, MILLISECONDS);
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
             throw new DownstreamException("Exception waiting for function type future", e);
         }
@@ -67,7 +68,7 @@ public class WebSocketFunctionRepository implements FunctionRepository, WebSocke
         sendMessage(RequestMessageBuilder.getFunctionStatus(id));
 
         try {
-            return getFunctionStatusFuture.get(TIMEOUT, MILLISECONDS);
+            return getFunctionStatusFuture.get(timeout, MILLISECONDS);
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
             throw new DownstreamException("Exception waiting for functions status future", e);
         }
