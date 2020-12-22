@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.locks.ReentrantLock;
 
 import static java.util.Objects.isNull;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -34,12 +35,14 @@ public class WebSocketFunctionRepository implements FunctionRepository, WebSocke
 
     private WebSocketSession session = null;
 
+    private ReentrantLock responseLock = new ReentrantLock();
     private CompletableFuture<List<Function>> getFunctionsListFuture;
     private CompletableFuture<String> getFunctionTypeFuture;
     private CompletableFuture<String> getFunctionStatusFuture;
 
     @Override
     public List<Function> getAllFunctions() {
+        responseLock.lock();
         getFunctionsListFuture = new CompletableFuture<>();
         sendMessage(RequestMessageBuilder.getAllFunctions());
 
@@ -47,11 +50,14 @@ public class WebSocketFunctionRepository implements FunctionRepository, WebSocke
             return getFunctionsListFuture.get(timeout, MILLISECONDS);
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
             throw new DownstreamException("Exception waiting for functions list future", e);
+        } finally {
+            responseLock.unlock();
         }
     }
 
     @Override
     public String getFunctionType(int id) {
+        responseLock.lock();
         getFunctionTypeFuture = new CompletableFuture<>();
         sendMessage(RequestMessageBuilder.getFunctionType(id));
 
@@ -59,11 +65,14 @@ public class WebSocketFunctionRepository implements FunctionRepository, WebSocke
             return getFunctionTypeFuture.get(timeout, MILLISECONDS);
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
             throw new DownstreamException("Exception waiting for function type future", e);
+        } finally {
+            responseLock.unlock();
         }
     }
 
     @Override
     public String getFunctionStatus(int id) {
+        responseLock.lock();
         getFunctionStatusFuture = new CompletableFuture<>();
         sendMessage(RequestMessageBuilder.getFunctionStatus(id));
 
@@ -71,6 +80,8 @@ public class WebSocketFunctionRepository implements FunctionRepository, WebSocke
             return getFunctionStatusFuture.get(timeout, MILLISECONDS);
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
             throw new DownstreamException("Exception waiting for functions status future", e);
+        } finally {
+            responseLock.unlock();
         }
     }
 

@@ -122,21 +122,12 @@ The current status of any function can be obtained by making a GET request to
 http://localhost:9998/function/status/{id}
 ```
 
-## Limitations
-
-The biggest limitation at the moment is that the wrapper will behave in an unexpected way if concurrent calls are made to endpoints that return something. Effectively, this means any of the GET calls.
-
-This is due to the way in which the repository code waits for a response after sending a request for data.  I am quite sure there are many different ways in which this could be improved, though at the moment it doesn't cause a problem for me, as I am only ever making a GET call once in order to find out a function's ID!
-
-Note that this does not affect any of PUT requests as they are effective "fire and forget".
-
 ## Improvements
 
 Given how basic this application currently is, there are hundreds!
 
 Off the top of my head:
 
-- Fix the GET concurrency issue
 - Add some form of authentication
 - Support more than just functions
 - Do away with the need to find out a function's ID by accepting a function name parameter instead
