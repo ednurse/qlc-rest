@@ -1,2 +1,5 @@
+server:
+  port: 9998
+
 qlc:
   host: ws://localhost:9999

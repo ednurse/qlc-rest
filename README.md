@@ -22,6 +22,8 @@ You will require a Java 8 JDK.
 
 You can set the host address of your running QLC+ instance by editing `application.yml`. By default, it assumes QLC+ is running on the same machine.
 
+You can also set the port that the wrapper listens on if you want to change it from the default (9998). Again this is in `application.yml`.
+
 ## Execution
 
 The application can be started by executing
@@ -30,7 +32,7 @@ The application can be started by executing
 ./gradlew bootRun
 ```
 
-This will download all required dependencies, build the application, and start it on port 8080.
+This will download all required dependencies, build the application, and start it on port 9998.
 
 ## Example calls
 
@@ -41,7 +43,7 @@ At the moment, the only thing you can do is control functions.
 First you will need to get the function ID. You can do this by making the following request in a browser:
 
 ```
-http://localhost:8080/functions
+http://localhost:9998/functions
 ```
 
 This will give a response similar to the following:
@@ -70,13 +72,13 @@ As far as I'm aware, the ID never changes once you have created a function.
 In its simplest form, you can update the status of a function by making a PUT call to the following URL:
 
 ```
-http://localhost:8080/function/status/{id}/{value}
+http://localhost:9998/function/status/{id}/{value}
 ```
 
 Value is `0` for off and `1` for on. So, for example:
 
 ```
-http://localhost:8080/function/status/22/1
+http://localhost:9998/function/status/22/1
 ```
 
 would start the function with the ID 22.
@@ -113,7 +115,7 @@ This would stop the functions with IDs 22 and 23, and start the function with ID
 The current status of any function can be obtained by making a GET request to
 
 ```
-http://localhost:8080/function/status/{id}
+http://localhost:9998/function/status/{id}
 ```
 
 ## Limitations
