@@ -6,4 +6,8 @@ public class DownstreamException extends RuntimeException {
         super (message, cause);
     }
 
+    public DownstreamException(String message) {
+        super (message);
+    }
+
 }

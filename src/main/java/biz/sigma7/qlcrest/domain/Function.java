@@ -1,5 +1,7 @@
 package biz.sigma7.qlcrest.domain;
 
+import java.util.Objects;
+
 public class Function {
 
     private final int id;
@@ -24,5 +26,18 @@ public class Function {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Function function = (Function) o;
+        return id == function.id && Objects.equals(name, function.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
     }
 }
